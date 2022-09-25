@@ -25,7 +25,7 @@ const getDatabasePort = (): number => {
       password: process.env.DB_PASSWORD || 'password',
       database: process.env.DB_DATABASE || 'uwstage',
       entities: [],
-      migrations: ['src/migrations/*.ts'],
+      migrations: [],
       autoLoadEntities: true,
       synchronize: shouldOrmSynchronize(),
     }),
