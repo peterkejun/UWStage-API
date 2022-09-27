@@ -1,6 +1,4 @@
 import { DataSource } from 'typeorm';
-import { Company } from './company/company.entity';
-import { Jobs } from './jobs/jobs.entity';
 
 const getDatabasePort = (): number => {
   if (process.env.DB_PORT != null) {
@@ -17,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE || 'uwstage',
   synchronize: true,
   logging: true,
-  entities: [Company, Jobs],
+  entities: ['src/**/*.entity.ts'],
   subscribers: [],
   migrations: ['migrations/*.ts'],
 });
