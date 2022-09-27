@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CompanyModule } from './company/company.module';
+import { JobsModule } from './jobs/jobs.module';
 
 const shouldOrmSynchronize = (): boolean => {
   return process.env.TARGET == 'DEV';
@@ -30,6 +31,7 @@ const getDatabasePort = (): number => {
       synchronize: shouldOrmSynchronize(),
     }),
     CompanyModule,
+    JobsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
