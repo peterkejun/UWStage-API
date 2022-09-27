@@ -30,16 +30,17 @@ export class CompanyService {
   updateOne(id: number, company: Company): Promise<UpdateResult> {
     return new Promise<UpdateResult>((resolve, reject) => {
       this.dataSource.transaction(async (manager) => {
-        const existingCompany = await manager.findOne(Company, { where: { id }})
+        const existingCompany = await manager.findOne(Company, {
+          where: { id },
+        });
         if (existingCompany == null) {
           reject({
             code: 400,
             msg: `Company with id ${id} not found.`,
-          })
-        } 
+          });
+        }
         resolve(await manager.update(Company, { id }, company));
-      })
-    })
+      });
+    });
   }
-
 }

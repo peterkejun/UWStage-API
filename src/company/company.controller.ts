@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { getHttpException } from 'src/utils/http-response';
 import { UpdateResult } from 'typeorm';
 import { Company } from './company.entity';
@@ -10,11 +20,13 @@ export class CompanyController {
 
   @Get()
   public findAll(): Promise<Company[]> {
-    return this.companyService.findAll()
+    return this.companyService.findAll();
   }
 
   @Get(':id')
-  public async findOne(@Param('id', ParseIntPipe) id: number): Promise<Company> {
+  public async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Company> {
     const company = await this.companyService.findOne(id);
     if (company == null) {
       throw getHttpException(HttpStatus.NOT_FOUND);
@@ -29,12 +41,14 @@ export class CompanyController {
 
   @Delete(':id')
   public deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.companyService.remove(id)
+    return this.companyService.remove(id);
   }
 
   @Post(':id')
-  public updateOne(@Param('id', ParseIntPipe) id: number, @Body() company: Company): Promise<UpdateResult> {
+  public updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() company: Company,
+  ): Promise<UpdateResult> {
     return this.companyService.updateOne(id, company);
   }
-
 }
