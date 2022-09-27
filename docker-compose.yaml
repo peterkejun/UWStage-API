@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  api:
+    build: 
+      context: .
+      target: dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PORT=8000
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=uwstage
+      - DB_PASSWORD=password
+      - DB_DATABASE=uwstage
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8-debian
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_USER=uwstage
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=uwstage
+
+volumes:
+  mysql_volume:
+  
