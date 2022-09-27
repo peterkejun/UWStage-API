@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y make
 
 FROM base AS dev
 
+RUN apt-get install -y procps
+
 ENV TARGET DEV
 EXPOSE 8000
 CMD ["npm", "run", "start:dev"]
