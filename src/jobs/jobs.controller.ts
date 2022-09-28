@@ -7,8 +7,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { makeHttpException } from 'src/utils/http-response';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateResult } from 'typeorm';
 import { Jobs } from './jobs.entity';
 import { JobsService } from './jobs.service';
@@ -31,16 +33,19 @@ export class JobsController {
     return job;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   public createOne(@Body() company: Jobs): Promise<Jobs> {
     return this.jobsService.createOne(company);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   public deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.jobsService.remove(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post(':id')
   public updateOne(
     @Param('id', ParseIntPipe) id: number,

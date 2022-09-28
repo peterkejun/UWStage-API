@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - api_node_modules:/app/node_modules
     environment:
       - PORT=8000
       - DB_HOST=mysql
@@ -36,6 +37,7 @@ services:
 
 volumes:
   mysql_volume:
+  api_node_modules:
 
 networks:
   shared:

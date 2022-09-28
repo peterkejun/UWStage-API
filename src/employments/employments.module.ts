@@ -9,10 +9,11 @@ import { TermsService } from 'src/terms/terms.service';
 import { Users } from 'src/users/users.entity';
 import { Jobs } from 'src/jobs/jobs.entity';
 import { Terms } from 'src/terms/terms.entity';
+import { Posts } from 'src/posts/posts.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Employments, Users, Jobs, Terms])],
+  imports: [TypeOrmModule.forFeature([Employments, Users, Jobs, Terms, Posts])],
   providers: [EmploymentsService, UsersService, JobsService, TermsService],
-  controllers: [EmploymentsController]
+  controllers: [EmploymentsController],
 })
 export class EmploymentsModule {}

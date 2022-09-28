@@ -8,8 +8,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { makeHttpException } from 'src/utils/http-response';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateResult } from 'typeorm';
 import { Company } from './company.entity';
 import { CompanyService } from './company.service';
@@ -34,16 +36,19 @@ export class CompanyController {
     return company;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   public createOne(@Body() company: Company): Promise<Company> {
     return this.companyService.createOne(company);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   public deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.companyService.remove(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post(':id')
   public updateOne(
     @Param('id', ParseIntPipe) id: number,
