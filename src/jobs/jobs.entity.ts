@@ -1,5 +1,6 @@
 import { Company } from '../company/company.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Terms } from '../terms/terms.entity';
 
 @Entity()
 export class Jobs {
@@ -20,4 +21,8 @@ export class Jobs {
 
   @ManyToOne(() => Company, company => company.jobs)
   company: Company;
+
+  @ManyToMany(() => Terms, term => term.jobs)
+  @JoinTable()
+  terms: Terms[];
 }
