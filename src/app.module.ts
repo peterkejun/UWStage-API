@@ -5,6 +5,9 @@ import { AppService } from './app.service';
 import { CompanyModule } from './company/company.module';
 import { JobsModule } from './jobs/jobs.module';
 import { TermsModule } from './terms/terms.module';
+import { EmploymentsModule } from './employments/employments.module';
+import { UsersModule } from './users/users.module';
+import { PostsModule } from './posts/posts.module';
 
 const shouldOrmSynchronize = (): boolean => {
   return process.env.TARGET == 'DEV';
@@ -34,6 +37,9 @@ const getDatabasePort = (): number => {
     CompanyModule,
     JobsModule,
     TermsModule,
+    EmploymentsModule,
+    UsersModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

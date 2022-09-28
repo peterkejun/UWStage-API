@@ -1,10 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Users } from '../users/users.entity';
 import { Terms } from '../terms/terms.entity';
-import { Employments } from '../employments/employments.entity';
-import { Company } from '../company/company.entity';
+import { Jobs } from '../jobs/jobs.entity';
+import { Posts } from '../posts/posts.entity';
 
 @Entity()
-export class Jobs {
+export class Employments {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,13 +21,16 @@ export class Jobs {
   @Column({ type: 'varchar', length: 50 })
   country: string;
 
-  @ManyToOne(() => Company, company => company.jobs)
-  company: Company;
+  @ManyToOne(() => Users, user => user.employments)
+  user: Users;
+
+  @ManyToOne(() => Jobs, job => job.employments)
+  job: Jobs;
 
   @ManyToMany(() => Terms, term => term.jobs)
   @JoinTable()
   terms: Terms[];
 
-  @OneToMany(() => Employments, employment => employment.job)
-  employments: Employments[];
+  @OneToMany(() => Posts, post => post.employment)
+  posts: Posts[];
 }
