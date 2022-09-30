@@ -15,6 +15,8 @@ services:
       - DB_USER=uwstage
       - DB_PASSWORD=password
       - DB_DATABASE=uwstage
+    networks:
+      - shared
     depends_on:
       - mysql
 
@@ -29,7 +31,13 @@ services:
       - MYSQL_USER=uwstage
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=uwstage
+    networks:
+      - shared
 
 volumes:
   mysql_volume:
+
+networks:
+  shared:
+    external: true
   
