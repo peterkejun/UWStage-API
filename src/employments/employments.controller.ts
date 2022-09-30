@@ -23,7 +23,7 @@ export class EmploymentsController {
         @RequiredQuery('term') term: number,
         @Body() employment: Employments,
     ): Promise<Employments> {
-        const userEntity = await throwIfNullish(this.usersService.findOne(user), makeHttpException(HttpStatus.NOT_FOUND, makeNotFoundMsg('user')));
+        const userEntity = await throwIfNullish(this.usersService.findOneById(user), makeHttpException(HttpStatus.NOT_FOUND, makeNotFoundMsg('user')));
         const jobEntity = await throwIfNullish(this.jobsService.findOne(job), makeHttpException(HttpStatus.NOT_FOUND, makeNotFoundMsg('job')));
         const termEntity = await throwIfNullish(this.termsService.findOne(term), makeHttpException(HttpStatus.NOT_FOUND, makeNotFoundMsg('term')));
         return await this.employmentsService.createOne(employment, userEntity, jobEntity, termEntity);
