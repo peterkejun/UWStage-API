@@ -8,7 +8,7 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
-import { getHttpException } from 'src/utils/http-response';
+import { makeHttpException } from 'src/utils/http-response';
 import { UpdateResult } from 'typeorm';
 import { Jobs } from './jobs.entity';
 import { JobsService } from './jobs.service';
@@ -26,7 +26,7 @@ export class JobsController {
   public async findOne(@Param('id', ParseIntPipe) id: number): Promise<Jobs> {
     const job = await this.jobsService.findOne(id);
     if (job == null) {
-      throw getHttpException(HttpStatus.NOT_FOUND);
+      throw makeHttpException(HttpStatus.NOT_FOUND);
     }
     return job;
   }
