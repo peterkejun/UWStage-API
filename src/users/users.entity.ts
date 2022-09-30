@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Employments } from '../employments/employments.entity';
 
 @Entity()
@@ -21,6 +29,6 @@ export class Users {
   @Column({ type: 'text' })
   password: string;
 
-  @OneToMany(() => Employments, employment => employment.user)
+  @OneToMany(() => Employments, (employment) => employment.user)
   employments: Employments[];
 }

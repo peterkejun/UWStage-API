@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Users } from '../users/users.entity';
 import { Terms } from '../terms/terms.entity';
 import { Jobs } from '../jobs/jobs.entity';
@@ -21,16 +31,16 @@ export class Employments {
   @Column({ type: 'varchar', length: 50 })
   country: string;
 
-  @ManyToOne(() => Users, user => user.employments)
+  @ManyToOne(() => Users, (user) => user.employments)
   user: Users;
 
-  @ManyToOne(() => Jobs, job => job.employments)
+  @ManyToOne(() => Jobs, (job) => job.employments)
   job: Jobs;
 
-  @ManyToMany(() => Terms, term => term.jobs)
-  @JoinTable()
-  terms: Terms[];
+  @ManyToOne(() => Terms, (term) => term.employments)
+  term: Terms;
 
-  @OneToMany(() => Posts, post => post.employment)
-  posts: Posts[];
+  @OneToOne(() => Posts, post => post.employment)
+  @JoinColumn()
+  post: Posts;
 }

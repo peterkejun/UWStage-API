@@ -9,6 +9,6 @@ export class Company {
   @Column()
   name: string;
 
-  @OneToMany(() => Jobs, job => job.company)
+  @OneToMany(() => Jobs, (job) => job.company)
   jobs: Jobs[];
 }

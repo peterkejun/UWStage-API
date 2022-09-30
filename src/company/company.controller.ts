@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
-import { getHttpException } from 'src/utils/http-response';
+import { makeHttpException } from 'src/utils/http-response';
 import { UpdateResult } from 'typeorm';
 import { Company } from './company.entity';
 import { CompanyService } from './company.service';
@@ -29,7 +29,7 @@ export class CompanyController {
   ): Promise<Company> {
     const company = await this.companyService.findOne(id);
     if (company == null) {
-      throw getHttpException(HttpStatus.NOT_FOUND);
+      throw makeHttpException(HttpStatus.NOT_FOUND);
     }
     return company;
   }

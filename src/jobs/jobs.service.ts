@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, FindOperator, Repository, UpdateResult } from 'typeorm';
 import { Jobs } from './jobs.entity';

@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { isPromise } from 'util/types';
 
 const exceptions = {
   [HttpStatus.CONTINUE]: ['CONTINUE', 100],
@@ -60,7 +61,24 @@ const exceptions = {
   [HttpStatus.HTTP_VERSION_NOT_SUPPORTED]: ['HTTP_VERSION_NOT_SUPPORTED', 505],
 };
 
-export const getHttpException = (status: HttpStatus): HttpException => {
-  const [msg, code] = exceptions[status];
-  return new HttpException(msg as string, code as number);
+export const makeHttpException = (status: HttpStatus, msg: string = null): HttpException => {
+  const [originalMsg, code] = exceptions[status];
+  if (msg != null) {
+    return new HttpException(msg, code as number);
+  } else {
+    return new HttpException(originalMsg as string, code as number);
+  }
 };
+
+export const throwIfNullish = async <T>(value: T | Promise<T>, exception: Error): Promise<T> => {
+  let _value = value;
+  if (isPromise(value)) {
+    _value = await value as Promise<T>;
+  }
+  if (_value as T == null) throw exception;
+  return _value as T;
+}
+
+export const makeNotFoundMsg = (entity: string): string => {
+  return `${entity} not found`
+}
