@@ -1,6 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, FindOperator, Repository, UpdateResult } from 'typeorm';
+import e from 'express';
+import { EmploymentsService } from 'src/employments/employments.service';
+import { PostsService } from 'src/posts/posts.service';
+import { DataSource, FindOperator, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
 import { Jobs } from './jobs.entity';
 
 @Injectable()
@@ -8,15 +11,34 @@ export class JobsService {
   constructor(
     @InjectRepository(Jobs)
     private JobsRepository: Repository<Jobs>,
+    private employmentsService: EmploymentsService,
+    private postService: PostsService,
     private dataSource: DataSource,
   ) {}
 
-  findAll(): Promise<Jobs[]> {
-    return this.JobsRepository.find();
+  async findAll(
+    companyId: number = null,
+  ): Promise<Jobs[]> {
+    let query = this.JobsRepository.createQueryBuilder('jobs');
+    if (companyId) {
+      query = query.where('jobs.company = :companyId', { companyId });
+    }
+    return await query.getMany();
   }
 
-  findOne(id: number | FindOperator<number>): Promise<Jobs> {
-    return this.JobsRepository.findOneBy({ id });
+  async findOne(id: number | FindOperator<number>): Promise<Jobs & {[key: string]: any}> {
+    const job = await this.JobsRepository.findOneBy({ id });
+    if (!job) return null;
+    return {
+      ...job,
+      employment_count: await this.employmentsService.count(job),
+      posts_count: await this.postService.countByJob(job),
+      rating: await this.employmentsService.calculateAverageRating(job),
+    };
+  }
+
+  findBy(options: FindOptionsWhere<Jobs>): Promise<Jobs[]> {
+    return this.JobsRepository.findBy(options);
   }
 
   async remove(id: number): Promise<void> {

@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   HttpStatus,
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { makeHttpException } from 'src/utils/http-response';
@@ -20,8 +22,10 @@ export class JobsController {
   constructor(private readonly jobsService: JobsService) {}
 
   @Get()
-  public findAll(): Promise<Jobs[]> {
-    return this.jobsService.findAll();
+  public findAll(
+    @Query('company', new DefaultValuePipe(0), ParseIntPipe) company: number,
+  ): Promise<Jobs[]> {
+    return this.jobsService.findAll(company);
   }
 
   @Get(':id')

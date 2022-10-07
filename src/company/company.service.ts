@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, FindOperator, Repository, UpdateResult } from 'typeorm';
+import { DataSource, FindManyOptions, FindOperator, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
 import { Company } from './company.entity';
 
 @Injectable()
@@ -17,6 +17,10 @@ export class CompanyService {
 
   findOne(id: number | FindOperator<number>): Promise<Company> {
     return this.CompanyRepository.findOneBy({ id });
+  }
+
+  findBy(options: FindOptionsWhere<Company>): Promise<Company[]> {
+    return this.CompanyRepository.findBy(options);
   }
 
   async remove(id: number): Promise<void> {

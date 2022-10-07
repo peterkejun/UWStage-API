@@ -10,10 +10,13 @@ import { Users } from 'src/users/users.entity';
 import { Jobs } from 'src/jobs/jobs.entity';
 import { Terms } from 'src/terms/terms.entity';
 import { Posts } from 'src/posts/posts.entity';
+import { PostsModule } from 'src/posts/posts.module';
+import { PostsService } from 'src/posts/posts.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Employments, Users, Jobs, Terms, Posts])],
-  providers: [EmploymentsService, UsersService, JobsService, TermsService],
+  imports: [TypeOrmModule.forFeature([Employments, Users, Jobs, Terms, Posts]), PostsModule],
+  providers: [EmploymentsService, UsersService, JobsService, TermsService, PostsService],
   controllers: [EmploymentsController],
+  exports: [EmploymentsService],
 })
 export class EmploymentsModule {}

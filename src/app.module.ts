@@ -11,6 +11,9 @@ import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { SearchService } from './search/search.service';
+import { SearchController } from './search/search.controller';
+import { SearchModule } from './search/search.module';
 
 const shouldOrmSynchronize = (): boolean => {
   return process.env.TARGET == 'DEV';
@@ -44,8 +47,9 @@ const getDatabasePort = (): number => {
     UsersModule,
     PostsModule,
     AuthModule,
+    SearchModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, AuthService, JwtService],
+  controllers: [AppController, SearchController],
+  providers: [AppService, AuthService, JwtService, SearchService],
 })
 export class AppModule {}
